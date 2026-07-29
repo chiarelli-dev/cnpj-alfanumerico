@@ -84,11 +84,11 @@ Valida CNPJ alfanumérico ou numérico legado. NUNCA levanta exceção: retorna 
 ```python
 import cnpjalfa
 
-cnpjalfa.validar("12.ABC.345/01DE-35")   # True (exemplo oficial SERPRO/RFB)
-cnpjalfa.validar("12ABC34501DE35")       # True (sem máscara)
-cnpjalfa.validar("11.222.333/0001-81")   # True (CNPJ numérico legado)
-cnpjalfa.validar("12.ABC.345/01DE-99")   # False (DV errado)
-cnpjalfa.validar(None)                   # False (nunca levanta exceção)
+cnpjalfa.validar("12.ABC.345/01DE-35")  # True (exemplo oficial SERPRO/RFB)
+cnpjalfa.validar("12ABC34501DE35")  # True (sem máscara)
+cnpjalfa.validar("11.222.333/0001-81")  # True (CNPJ numérico legado)
+cnpjalfa.validar("12.ABC.345/01DE-99")  # False (DV errado)
+cnpjalfa.validar(None)  # False (nunca levanta exceção)
 ```
 
 ### calcular_dv(cnpj_sem_dv) -> str
@@ -96,7 +96,7 @@ cnpjalfa.validar(None)                   # False (nunca levanta exceção)
 Calcula os 2 dígitos verificadores da base de 12 posições. Levanta `ValidationError` se, após a limpeza, a base não tiver exatamente 12 caracteres em `[A-Z0-9]`.
 
 ```python
-cnpjalfa.calcular_dv("12ABC34501DE")     # '35'
+cnpjalfa.calcular_dv("12ABC34501DE")  # '35'
 cnpjalfa.calcular_dv("12.abc.345/01de")  # '35' (aceita máscara e minúsculas)
 ```
 
@@ -105,7 +105,7 @@ cnpjalfa.calcular_dv("12.abc.345/01de")  # '35' (aceita máscara e minúsculas)
 Aplica a máscara oficial `XX.XXX.XXX/XXXX-XX`. Valida apenas a estrutura (14 posições, DVs numéricos), não o valor do DV. Levanta `ValidationError` para estrutura inválida.
 
 ```python
-cnpjalfa.formatar("12abc34501de35")      # '12.ABC.345/01DE-35'
+cnpjalfa.formatar("12abc34501de35")  # '12.ABC.345/01DE-35'
 ```
 
 ### limpar(cnpj) -> str
@@ -113,7 +113,7 @@ cnpjalfa.formatar("12abc34501de35")      # '12.ABC.345/01DE-35'
 Remove máscara (pontos, barra, hífen e espaços) e converte a maiúsculas. Só normaliza, não valida o conteúdo além do charset. Levanta `ValidationError` se a entrada não for `str` ou contiver caracteres não-ASCII (proteção contra lookalikes Unicode como `ı` U+0131, que `str.upper` mapearia para `I`).
 
 ```python
-cnpjalfa.limpar("12.abc.345/01de-35")    # '12ABC34501DE35'
+cnpjalfa.limpar("12.abc.345/01de-35")  # '12ABC34501DE35'
 ```
 
 ### gerar(alfanumerico=True) -> str
@@ -121,9 +121,9 @@ cnpjalfa.limpar("12.abc.345/01de-35")    # '12ABC34501DE35'
 Gera um CNPJ válido aleatório para testes e desenvolvimento, já com a máscara aplicada. Com `alfanumerico=False` gera apenas dígitos (formato numérico legado). Não usa fonte criptográfica: é para dados de teste, não para inscrições reais.
 
 ```python
-cnpjalfa.gerar()                         # ex.: '2D.IYU.IYY/8S80-11'
-cnpjalfa.gerar(alfanumerico=False)       # CNPJ numérico legado válido
-cnpjalfa.validar(cnpjalfa.gerar())       # True, sempre
+cnpjalfa.gerar()  # ex.: '2D.IYU.IYY/8S80-11'
+cnpjalfa.gerar(alfanumerico=False)  # CNPJ numérico legado válido
+cnpjalfa.validar(cnpjalfa.gerar())  # True, sempre
 ```
 
 ### ValidationError
@@ -146,7 +146,7 @@ Mesmo comportamento, nomes em inglês: `is_valid` (validar), `calculate_dv` (cal
 ```python
 from cnpjalfa import is_valid, generate
 
-is_valid(generate())                     # True
+is_valid(generate())  # True
 ```
 
 ## Como usar a CLI
