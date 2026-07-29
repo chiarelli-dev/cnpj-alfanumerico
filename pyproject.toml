@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cnpj-alfanumerico"
+version = "0.1.0"
+description = "Validação de CNPJ alfanumérico da Receita Federal (IN RFB 2.229/2024): DV por módulo 11 com conversão ASCII-48, retrocompatível com CNPJ numérico."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Leonardo Chiarelli", email = "leonardo@chiarelli.dev" }]
+keywords = ["cnpj", "cnpj-alfanumerico", "validacao", "receita-federal", "brasil", "digito-verificador"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: Portuguese (Brazilian)",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Office/Business :: Financial",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/chiarelli-dev/cnpj-alfanumerico"
+Issues = "https://github.com/chiarelli-dev/cnpj-alfanumerico/issues"
+
+[project.scripts]
+cnpjalfa = "cnpjalfa.__main__:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "pytest-cov", "ruff"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cnpjalfa"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
