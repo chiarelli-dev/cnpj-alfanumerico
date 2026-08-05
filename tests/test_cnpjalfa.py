@@ -304,3 +304,11 @@ class TestCli:
     def test_formatar_invalido_exit_1(self, capsys):
         assert main(["formatar", "abc"]) == 1
         assert "erro" in capsys.readouterr().err
+
+    def test_dv_ok(self, capsys):
+        assert main(["dv", "12ABC34501DE"]) == 0
+        assert capsys.readouterr().out.strip() == "35"
+
+    def test_dv_invalido_exit_1(self, capsys):
+        assert main(["dv", "abc"]) == 1
+        assert "erro" in capsys.readouterr().err

@@ -170,6 +170,9 @@ cnpjalfa gerar --numerico
 cnpjalfa formatar 12abc34501de35
 # 12.ABC.345/01DE-35
 
+cnpjalfa dv 12ABC34501DE
+# 35            (so os 2 digitos verificadores, sem montar o CNPJ completo)
+
 cnpjalfa --version
 ```
 

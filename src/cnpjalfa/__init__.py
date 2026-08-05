@@ -26,10 +26,16 @@ Sem dependência externa: só a biblioteca padrão do Python.
 
 from __future__ import annotations
 
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _version
+
 from .core import calcular_dv, formatar, gerar, limpar, validar
 from .errors import ValidationError
 
-__version__ = "0.1.0"
+try:
+    __version__ = _version("cnpj-alfanumerico")
+except PackageNotFoundError:  # pragma: no cover - checkout sem instalação
+    __version__ = "0.0.0+dev"
 
 # Aliases em inglês.
 is_valid = validar

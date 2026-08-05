@@ -4,6 +4,10 @@ Exit code 0 para sucesso (CNPJ válido) e 1 para falha (CNPJ inválido ou
 entrada malformada), pensado para uso em shell script:
 
     cnpjalfa validar "$CNPJ" && echo ok
+
+Exit code 2 é reservado pelo ``argparse`` para erro de sintaxe da própria
+linha de comando (subcomando desconhecido, argumento obrigatório ausente):
+não confundir com o 1 de CNPJ inválido.
 """
 
 from __future__ import annotations
@@ -12,7 +16,7 @@ import argparse
 import sys
 
 from . import __version__
-from .core import formatar, gerar, validar
+from .core import calcular_dv, formatar, gerar, validar
 from .errors import ValidationError
 
 
@@ -38,6 +42,9 @@ def main(argv: list[str] | None = None) -> int:
     p_formatar = sub.add_parser("formatar", help="aplica a máscara XX.XXX.XXX/XXXX-XX")
     p_formatar.add_argument("cnpj", help="CNPJ com ou sem máscara")
 
+    p_dv = sub.add_parser("dv", help="calcula so os 2 digitos verificadores da base de 12 posicoes")
+    p_dv.add_argument("cnpj_sem_dv", help="base de 12 caracteres alfanumericos, sem os DVs")
+
     args = parser.parse_args(argv)
 
     if args.comando == "validar":
@@ -53,9 +60,17 @@ def main(argv: list[str] | None = None) -> int:
             print(gerar(alfanumerico=not args.numerico))
         return 0
 
-    # formatar
+    if args.comando == "formatar":
+        try:
+            print(formatar(args.cnpj))
+        except ValidationError as exc:
+            print(f"erro: {exc}", file=sys.stderr)
+            return 1
+        return 0
+
+    # dv
     try:
-        print(formatar(args.cnpj))
+        print(calcular_dv(args.cnpj_sem_dv))
     except ValidationError as exc:
         print(f"erro: {exc}", file=sys.stderr)
         return 1
